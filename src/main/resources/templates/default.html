@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:fragment="header">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .navbar {
+      margin-bottom: 0;
+    }
+
+    .sidebar {
+      height: 100vh;
+      width: 150px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #f8f9fa;
+      padding-top: 20px;
+      overflow: auto;
+      border-right: 1px solid #ddd;
+    }
+
+    .sidebar a {
+      padding: 10px 15px;
+      text-decoration: none;
+      font-size: 15px;
+      color: #333;
+      display: block;
+    }
+
+    .sidebar .item:hover {
+      background-color: #ddd;
+      /* Hover background */
+      color: #000;
+    }
+
+    .content {
+      margin-left: 150px;
+      /* Same as sidebar width */
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 15px;
+      align-items: center;
+      background-color: #4e8bc0;
+    }
+
+    .nav-item {
+      padding: 10px;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .navbar-brand {
+      padding: 30px 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div th:fragement="body">
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-airplay">
+          <path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path>
+          <polygon points="12 15 17 21 7 21 12 15"></polygon>
+        </svg>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
+        style="display: flex; justify-content: space-between;">
+        <div class="nav-header">
+          <div class="" style="margin-left: 65px;">
+            <a class="nav-item nav-link" href="#">Customer Configuration</a>
+            <a class="nav-item nav-link" href="#">Master Data Reports</a>
+          </div>
+          <a class="nav-item">Profile</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="#" style="display: flex;justify-content: center;"><svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="feather feather-airplay">
+          <path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path>
+          <polygon points="12 15 17 21 7 21 12 15"></polygon>
+        </svg></a>
+      <a class="item" href="#">Customer</a>
+      <a href="#" class="item">Master Reports</a>
+    </div>
+  </div>
+</body>

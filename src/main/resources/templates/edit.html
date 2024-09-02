@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="default :: header"></head>
+
+<body>
+    <div th:replace="default :: body"></div>
+    <div class="content">
+        <h3>Customer Configuration</h3>
+        <style>
+            .form-group {
+                margin-bottom: 15px;
+            }
+            .form-group label {
+                margin-bottom: 5px;
+            }
+            .sensor-table th, .sensor-table td {
+                text-align: center;
+            }
+            .sensor-table th {
+                background-color: #f8f9fa;
+            }
+            .sensor-table td {
+                padding: 10px;
+            }
+            .total-sensors {
+                margin-top: 20px;
+                font-weight: bold;
+            }
+        </style>
+        <div class="">
+            <form method="post" th:action="@{/update}">
+                <!--  -->
+                <input type="hidden" name="id" th:value="${data.id}" />
+                <div style="display: flex;justify-content: space-between;">
+                    <!-- Customer Configuration Section -->
+                    <div class="form-group">
+                        <label for="configId">Configuration ID</label>
+                        <input type="text" required name="configId" th:value="${data.configId}" class="form-control" id="configId" placeholder="TN-CC-2024082100001">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerName">Customer Name</label>
+                        <select class="form-control" required id="customerName" name="customerName">
+                            <option value="">---------Select Customer--------</option>
+                            <th:block th:each="custom : ${customer}">
+                                <option th:value="${custom.key}" th:selected="${custom.key} == ${data.customerName}" th:text="${custom.value}" >Format</option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="applicationType">Application Type</label>
+                        <select class="form-control" required id="applicationType" name="applicationType">
+                            <option value="">---------Select Application--------</option>
+                            <th:block th:each="entry : ${appType}">
+                                <option th:value="${entry.key}" th:selected="${entry.key} == ${data.applicationType}" th:text="${entry.value}">Format</option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="onboardingDate">Onboarding Date</label>
+                        <input type="date" class="form-control" id="onboardingDate" name="onboardingDate" th:value="${data.onboardingDate}">
+                    </div>
+                    <div class="form-group">
+                        <label for="effectiveDate">Effective Date</label>
+                        <input type="date" class="form-control" id="effectiveDate" name="effectiveDate" th:value="${data.effectiveDate}">
+                    </div>
+                </div>
+                <!-- Sensor Details Section -->
+                <div class="" style="display: flex;justify-content: space-between; align-items: center;">
+                    <h3>Sensor Details</h3>
+                    <div class="">
+                        <button class="btn add-btn btn-info" type="button">Add</button>
+                    </div>
+                </div>
+                <table class="table table-bordered sensor-table">
+                    <thead>
+                        <tr>
+                            <th>S. No</th>
+                            <th>Sensor Name</th>
+                            <th>Sensor Type</th>
+                            <th>Input or Output</th>
+                            <th>Units</th>
+                            <th>Message Format</th>
+                            <th>From Value</th>
+                            <th>To Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="sensor, iterStat : ${sens}" class="clone-row">
+                            <td th:text="${iterStat.index + 1}" class="count"></td>
+                            <td>
+                                <input type="hidden" name="sensorId[]" th:value="${sensor.id}">
+                                <input type="text" class="form-control" th:value="${sensor.sensor_name}" name="sensorName[]">
+                                <!-- <select class="form-control" name="sensorName[]">
+                                    <option value="">---Select Sensor---</option>
+                                    <th:block th:each="entry : ${sensorType}">
+                                        <option th:value="${entry.key}" th:text="${entry.value}" th:selected="${sensor.sensor_name}==${entry.key}">Format</option>
+                                    </th:block>
+                                </select> -->
+                            </td>
+                            <td>
+                                <select class="form-control" name="sensorType[]">
+                                    <option value="">---Select Sensor Type---</option>
+                                    <th:block th:each="entry : ${sensorType}">
+                                        <option th:value="${entry.key}" th:text="${entry.value}"  th:selected="${sensor.sensor_type}==${entry.key}">Format</option>
+                                    </th:block>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="checkbox" name="inpOrOut[]" id="inpOrOut" value="1" th:checked="${sensor.inp_or_out}==true">
+                            </td>
+                            <td>
+                                <select class="form-control" name="units[]">
+                                    <option value="">---Select Units---</option>
+                                    <th:block th:each="entry : ${units}">
+                                        <option th:value="${entry.key}" th:text="${entry.value}"  th:selected="${sensor.units}==${entry.key}">Format</option>
+                                    </th:block>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="form-control" name="msgFormat[]">
+                                    <option value="">---Select Format---</option>
+                                    <th:block th:each="entry : ${msgFormat}">
+                                        <option th:value="${entry.key}" th:text="${entry.value}"  th:selected="${sensor.message_format}==${entry.key}" >Format</option>
+                                    </th:block>
+                                </select>
+                            </td>
+                            <td><input type="number" class="form-control" step="any" th:value="${sensor.from_val}" name="fromVal[]"></td>
+                            <td><input type="number" class="form-control" step="any" name="toVal[]" th:value="${sensor.to_val}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- Total Sensors -->
+                <div class="total-sensors">
+                    Total Sensors: <span id="total_sensor" th:text="${sensor_count}">1</span>
+                </div>
+                <div class="p-2" style="display: flex;justify-content: end;">
+                    <a th:href="@{/index}" class="btn btn-danger px-2">Cancel</a>&nbsp;&nbsp;
+                    <button class="btn btn-success px-2" type="submit">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>      
+        let count=parseInt($('#total_sensor').text());
+        $(document).on('click','.add-btn',function(){
+            let row=$('.clone-row').first().clone();            
+            row.children('.count').text(count+1)
+            row.find('select,input').val('');  
+            row.find('input').attr('checked',false);
+            $('#total_sensor').text(count+1);
+            $('.clone-row').parent().append(row.removeClass('clone-row'));
+            count++;   
+        })
+    </script>   
+</body>
+</html>
